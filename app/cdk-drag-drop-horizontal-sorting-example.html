@@ -1,17 +1,20 @@
-<div
-  cdkDropList
-  cdkDropListOrientation="horizontal"
-  class="example-list"
-  (cdkDropListDropped)="drop($event)"
->
+<div *ngFor="let partition of partitions; let y = index"
+(cdkDropDropped)="dropped($event)">
   <div
-    class="example-box"
-    *ngFor="let timePeriod of timePeriods; let i = index"
-    cdkDrag
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    class="example-list"
+    (cdkDropListDropped)="drop($event,y)"
   >
-    {{timePeriod}}<span class="sup" (click)="sup(i)">-</span>
+    <div
+      class="example-box"
+      *ngFor="let note of partition; let i = index"
+      cdkDrag
+    >
+      {{note}}<span class="sup" (click)="sup(i,y)">-</span>
+    </div>
+    <div class="example-box add" (click)="add(y)">+</div>
   </div>
-  <div class="example-box add" (click)="add()">+</div>
 </div>
 
 <!-- Copyright 2018 Google Inc. All Rights Reserved.

@@ -10,17 +10,39 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['cdk-drag-drop-horizontal-sorting-example.css'],
 })
 export class CdkDragDropHorizontalSortingExample {
-  timePeriods = ['1', '6', '3', '3', '2°'];
+  partitions: any[] = [];
+  partitionLine: any = ['1', '6', '3', '3', '2°'];
+  partitionLine2: any = ['1', '6', '3'];
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.timePeriods, event.previousIndex, event.currentIndex);
+  constructor() {
+    this.partitions.push(this.partitionLine);
+    this.partitions.push(this.partitionLine2);
   }
-  sup(item: any) {
-    console.log('delete', item);
-    this.timePeriods.splice(item, 1);
+
+  ngOnInit() {}
+
+  drop(event: CdkDragDrop<string[]>,index_partitions: any) {
+    moveItemInArray(
+      this.partitions[index_partitions],
+      event.previousIndex,
+      event.currentIndex
+    );
   }
-  add() {
-    this.timePeriods.push('1');
+
+  // dropped(event: CdkDragDrop<string[]>) {
+  //   moveItemInArray(
+  //     event.container.data,
+  //     event.previousIndex,
+  //     event.currentIndex
+  //   );
+  // }
+  sup(index_notes: any, index_partitions: any) {
+    console.log('delete', index_notes);
+    console.log('index_partitions', index_partitions);
+    this.partitions[index_partitions].splice(index_notes, 1);
+  }
+  add(index_partitions: any) {
+    this.partitions[index_partitions].push('1');
   }
 }
 

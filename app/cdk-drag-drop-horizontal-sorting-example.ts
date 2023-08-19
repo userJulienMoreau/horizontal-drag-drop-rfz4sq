@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 
 /**
  * @title Drag&Drop horizontal sorting
@@ -10,9 +14,12 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['cdk-drag-drop-horizontal-sorting-example.css'],
 })
 export class CdkDragDropHorizontalSortingExample {
+  bpm : number = 60;
+  lastBmp : number = 60;
   partitions: any[] = [];
-  partitionLine: any = ['1', '6', '3', '3', '2°'];
-  partitionLine2: any = ['1', '6', '3'];
+  partitionLine: any = [['1',60], ['6',30], ['3',120], ['3'], ['2°',90]];
+  partitionLine2: any = [['1',60], ['6',30], ['3',120], ['3'], ['2°',90]];
+  activateReorder: boolean = true;
 
   constructor() {
     this.partitions.push(this.partitionLine);
@@ -21,28 +28,40 @@ export class CdkDragDropHorizontalSortingExample {
 
   ngOnInit() {}
 
-  drop(event: CdkDragDrop<string[]>,index_partitions: any) {
+  drop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
+  drop2(event: CdkDragDrop<any[]>) {
     moveItemInArray(
-      this.partitions[index_partitions],
+      event.container.data,
       event.previousIndex,
       event.currentIndex
     );
   }
-
-  // dropped(event: CdkDragDrop<string[]>) {
-  //   moveItemInArray(
-  //     event.container.data,
-  //     event.previousIndex,
-  //     event.currentIndex
-  //   );
-  // }
   sup(index_notes: any, index_partitions: any) {
     console.log('delete', index_notes);
     console.log('index_partitions', index_partitions);
     this.partitions[index_partitions].splice(index_notes, 1);
   }
   add(index_partitions: any) {
-    this.partitions[index_partitions].push('1');
+    this.partitions[index_partitions].push(['1',this.lastBmp]);
+  }
+
+  addPartion() {
+    this.partitions.push([]);
   }
 }
 

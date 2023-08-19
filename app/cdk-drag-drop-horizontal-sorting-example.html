@@ -1,22 +1,67 @@
-<div *ngFor="let partition of partitions; let y = index"
-(cdkDropDropped)="dropped($event)">
+<div cdkDropListGroup *ngIf="activateReorder">
   <div
     cdkDropList
-    cdkDropListOrientation="horizontal"
-    class="example-list"
-    (cdkDropListDropped)="drop($event,y)"
+    [cdkDropListData]="partitions"
+    (cdkDropListDropped)="drop2($event)"
+    cdkDragLockAxis="y"
   >
-    <div
-      class="example-box"
-      *ngFor="let note of partition; let i = index"
-      cdkDrag
-    >
-      {{note}}<span class="sup" (click)="sup(i,y)">-</span>
+    <div *ngFor="let partition of partitions; let y = index" cdkDrag>
+      <div
+        cdkDropList
+        [cdkDropListData]="partition"
+        cdkDropListOrientation="horizontal"
+        class="partition"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          class="notes"
+          *ngFor="let note of partition; let i = index"
+          cdkDrag
+        >
+          {{note[0]}}
+          <span
+            class="bpm"
+            [ngStyle]="{'width':note[1] ? (bpm/note[1]*bpm)/3+'px':bpm/3+'px'}"
+          ></span>
+          <span class="sup" (click)="sup(i,y)">-</span>
+        </div>
+        <div class="notes add" (click)="add(y)">+</div>
+      </div>
     </div>
-    <div class="example-box add" (click)="add(y)">+</div>
   </div>
 </div>
-
-<!-- Copyright 2018 Google Inc. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license -->
+<div cdkDropListGroup *ngIf="!activateReorder">
+  <div *ngFor="let partition of partitions; let y = index">
+    <div
+      cdkDropList
+      [cdkDropListData]="partition"
+      cdkDropListOrientation="horizontal"
+      class="partition"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="notes" *ngFor="let note of partition; let i = index" cdkDrag>
+        {{note[0]}}
+        <span
+        class="bpm"
+        [ngStyle]="{'width':note[1] ? (bpm/note[1]*bpm)/3+'px':bpm/3+'px'}"
+      ></span>
+        <span class="sup" (click)="sup(i,y)">-</span>
+      </div>
+      <div class="notes add" (click)="add(y)">+</div>
+    </div>
+  </div>
+</div>
+<div>
+  <mat-divider></mat-divider>
+  <button
+    mat-icon-button
+    color="primary"
+    aria-label="add a partition"
+    (click)="addPartion()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <mat-slide-toggle [(ngModel)]="activateReorder"
+    >Active setting order</mat-slide-toggle
+  >
+</div>

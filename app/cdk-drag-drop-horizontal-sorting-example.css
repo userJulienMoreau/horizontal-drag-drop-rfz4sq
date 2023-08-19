@@ -1,4 +1,4 @@
-.example-list {
+.partition {
   max-width: 100%;
   border: solid 1px #ccc;
   height: 30px;
@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-.example-box {
+.notes {
   padding: 10px;
   border-right: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
@@ -55,8 +55,18 @@
 
 
 span.sup {
-  width: 20px;
-  height: 20px;
+  position: relative;
+  right: -13px;
+  /* z-index: 10000; */
+  top: -8px;
+  width: 13px;
+  height: 13px;
   background-color: crimson;
+  cursor: pointer;
+}
+
+span.bpm {
+  height: 20px;
+  background-color: rgb(173, 146, 152);
   cursor: pointer;
 }

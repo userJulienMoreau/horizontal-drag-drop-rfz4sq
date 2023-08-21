@@ -4,6 +4,13 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import {
+  colors,
+  instru,
+  instru_names,
+  instru_types,
+  note,
+} from '../models/music';
 
 /**
  * @title Drag&Drop horizontal sorting
@@ -14,16 +21,38 @@ import {
   styleUrls: ['cdk-drag-drop-horizontal-sorting-example.css'],
 })
 export class CdkDragDropHorizontalSortingExample {
-  bpm : number = 60;
-  lastBmp : number = 60;
-  partitions: any[] = [];
-  partitionLine: any = [['1',60], ['6',30], ['3',120], ['3'], ['2°',90]];
-  partitionLine2: any = [['1',60], ['6',30], ['3',120], ['3'], ['2°',90]];
-  activateReorder: boolean = true;
-
+  public bpm: number = 60;
+  public lastBmp: number = 60;
+  public partitions: any[] = [];
+  public partitionLine: any = [];
+  public activateReorder: boolean = true;
+  public kalimba: instru = {
+    name: instru_names.Kalimba,
+    color: colors.Blue,
+    type: instru_types.Percussion,
+  };
+  public KalimbaNotes: note[] = [
+    { id: '°°2', name: ['°°2', 'D'], color: colors.Green, index: 1 },
+    { id: '°7', name: ['°7', 'B'], color: colors.Blue, index: 2 },
+    { id: '°5', name: ['°5', 'G'], color: colors.Blue, index: 3 },
+    { id: '°3', name: ['°3', 'E'], color: colors.Blue, index: 4 },
+    { id: '°1', name: ['°1', 'C'], color: colors.Blue, index: 5 },
+    { id: '°1', name: ['°1', 'C'], color: colors.Blue, index: 5 },
+    { id: '6', name: ['6', 'A'], color: colors.Pink, index: 6 },
+    { id: '4', name: ['4', 'F'], color: colors.Pink, index: 7 },
+    { id: '2', name: ['2', 'D'], color: colors.Pink, index: 8 },
+    { id: '1', name: ['1', 'C'], color: colors.Pink, index: 9 },
+    { id: '3', name: ['3', 'E'], color: colors.Pink, index: 10 },
+    { id: '5', name: ['5', 'G'], color: colors.Pink, index: 11 },
+    { id: '7', name: ['7', 'B'], color: colors.Pink, index: 12 },
+    { id: '°2', name: ['°2', 'D'], color: colors.Blue, index: 13 },
+    { id: '°4', name: ['°4', 'F'], color: colors.Blue, index: 14 },
+    { id: '°6', name: ['°6', 'A'], color: colors.Blue, index: 15 },
+    { id: '°°1', name: ['°°1', 'C'], color: colors.Green, index: 16 },
+    { id: '°°3', name: ['°°3', 'E'], color: colors.Green, index: 17 },
+  ];
   constructor() {
     this.partitions.push(this.partitionLine);
-    this.partitions.push(this.partitionLine2);
   }
 
   ngOnInit() {}
@@ -57,7 +86,7 @@ export class CdkDragDropHorizontalSortingExample {
     this.partitions[index_partitions].splice(index_notes, 1);
   }
   add(index_partitions: any) {
-    this.partitions[index_partitions].push(['1',this.lastBmp]);
+    this.partitions[index_partitions].push(['1', this.lastBmp]);
   }
 
   addPartion() {
